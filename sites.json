@@ -1,0 +1,25 @@
+{
+    "default": {
+        "hostname": "nuc3.muh",
+        "nofollow": true,
+        "icon": "my-default-icon.png",
+        "newtab": false
+    },
+    "sites": [
+        {
+            "name": "Jellyfin",
+            "url" : "https://jellyfin.lando.muh",
+            "icon": "jellyfin.png"
+        },
+        {
+            "name": "TV",
+            "url" : "https://tv.lando.muh",
+            "icon": "tvheadend.png"
+        },
+        {
+            "name": "JD2",
+            "url" : "https://jd2.lando.muh",
+            "icon": "jdownloader2.png"
+        }
+    ]
+}

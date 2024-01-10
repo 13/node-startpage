@@ -1,0 +1,85 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+    <!-- Add Bootstrap CSS link -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <style>
+      body {
+        text-align: center;
+      }
+
+      /* Add a light hover effect to the cards */
+      .card-link {
+        text-decoration: none;
+      }
+
+      .card-link:hover .card {
+        box-shadow: 0 0 10px rgba(255, 255, 255, 0.2); /* Use a darker color for the shadow */
+        transition: box-shadow 0.1s ease-in-out;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container mt-5">
+      <!-- Display the hostname from data.json in the center -->
+      <h1 class="mb-4"><span id="hostname-label"></span></h1>
+
+      <!-- Cards for each site entry -->
+      <div id="site-cards" class="row"></div>
+    </div>
+
+    <script>
+      // Fetch and display JSON data
+      async function fetchData() {
+        const response = await fetch("/json");
+        const jsonData = await response.json();
+
+        // Display the hostname
+        document.getElementById("hostname-label").innerText = `${jsonData.default.hostname}`;
+        document.querySelector("title").textContent = `${jsonData.default.hostname}`;
+        // Render site cards
+        renderSiteCards(jsonData.sites);
+      }
+
+      // Render site cards
+      function renderSiteCards(sites) {
+        const siteCardsContainer = document.getElementById("site-cards");
+
+        // Clear existing content
+        siteCardsContainer.innerHTML = "";
+
+        // Create a Bootstrap card for each site entry
+        sites.forEach((site) => {
+          const card = document.createElement("div");
+          card.classList.add("col-md-4", "mb-4");
+
+          card.innerHTML = `
+          <a href="${site.url}" target="_blank" class="card-link">
+            <div class="card">
+              <img src="${site.icon}" class="card-img-top" alt="${site.name}">
+              <div class="card-body">
+                <h5 class="card-title">${site.name}</h5>
+              </div>
+            </div>
+          </a>
+        `;
+
+          // Append the card to the container
+          siteCardsContainer.appendChild(card);
+        });
+      }
+
+      // Call fetchData when the page loads
+      fetchData();
+
+      // Optional: You can add an event listener or other functionality here as needed.
+    </script>
+
+    <!-- Add Bootstrap JS and Popper.js scripts (required for Bootstrap) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

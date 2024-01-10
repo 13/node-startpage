@@ -1,0 +1,21 @@
+services:
+  node-startpage:
+    build: .
+    container_name: startpage
+    environment:
+      PUID: ${PUID}
+      PGID: ${PGID}
+      TZ: Europe/Rome
+      VIRTUAL_HOST: startpage.${DOMAIN}
+      HOSTNAME: ${HOSTNAME}
+    ports:
+      - 3005:3005
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ${DATA}/startpage:/usr/src/app/data
+    restart: unless-stopped
+
+networks:
+  mac0:
+    external: true
+    name: mac0

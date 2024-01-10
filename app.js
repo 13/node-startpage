@@ -1,14 +1,15 @@
 const express = require('express');
+const path = require('path');
 const fs = require('fs');
 
 const app = express();
-const port = 3000;
+const port = 3005;
 
 let jsonData;
 
 const readJsonFile = () => {
   try {
-    const data = fs.readFileSync('data.json', 'utf8');
+    const data = fs.readFileSync('sites.json', 'utf8');
     return JSON.parse(data);
   } catch (error) {
     console.error('Error reading JSON file:', error.message);
@@ -31,6 +32,12 @@ const checkForChanges = () => {
 
 setInterval(checkForChanges, 5000);
 
+app.use(express.static(path.join(__dirname, 'public')));
+
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
 // Serve the index.html file
 app.get('/', (req, res) => {
   const indexPath = __dirname + '/index.html';
@@ -38,7 +45,7 @@ app.get('/', (req, res) => {
 });
 
 // Serve the JSON data separately
-app.get('/json-data', (req, res) => {
+app.get('/json', (req, res) => {
   res.json(jsonData || {}); // Send an empty object if jsonData is null
 });
 
