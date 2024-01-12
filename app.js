@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const fs = require('fs');
+const { exec } = require('child_process');
 
 const app = express();
 const port = 3005;
@@ -47,6 +48,19 @@ app.get('/', (req, res) => {
 // Serve the JSON data separately
 app.get('/json', (req, res) => {
   res.json(jsonData || {}); // Send an empty object if jsonData is null
+});
+
+app.get('/shutdown', (req, res) => {
+  // Execute shutdown command
+  exec('shutdown now', (error, stdout, stderr) => {
+    if (error) {
+      console.error('Shutdown command error:', error);
+      res.status(500).json({ error: 'Error shutting down' });
+    } else {
+      console.log('Shutdown command executed successfully');
+      res.json({ message: 'Shutting down...' });
+    }
+  });
 });
 
 app.listen(port, () => {

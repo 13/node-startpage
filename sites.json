@@ -3,7 +3,8 @@
         "hostname": "nuc3.muh",
         "nofollow": true,
         "icon": "my-default-icon.png",
-        "newtab": false
+        "newtab": false,
+        "shutdown": true
     },
     "sites": [
         {
